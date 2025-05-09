@@ -55,38 +55,3 @@ def get_multiple_assets(tickers, start, end):
     except Exception as e:
         print(f"Erreur lors du téléchargement des actifs : {e}")
         return None
-    from utils.data_processing import get_multiple_assets, compute_log_returns_multi
-import matplotlib.pyplot as plt
-
-# Paramètres
-tickers = ["AAPL", "MSFT", "GOOGL"]
-start_date = "2022-01-01"
-end_date = "2023-12-31"
-
-# 1. Télécharger les prix ajustés
-prices = get_multiple_assets(tickers, start=start_date, end=end_date)
-
-if prices is None:
-    print("❌ Échec du téléchargement des données.")
-    exit()
-
-print("✅ Données récupérées :")
-print(prices.head())
-
-# 2. Calculer les log-returns
-log_returns = log_returns(prices)
-print("\n✅ Log-returns calculés :")
-print(log_returns.head())
-
-# 3. Vérifier s’il y a des valeurs manquantes
-missing = log_returns.isna().sum()
-print("\n🔍 Nombre de valeurs manquantes par actif dans les log-returns :")
-print(missing)
-
-# 4. Tracer les rendements log pour chaque actif
-log_returns.plot(figsize=(12, 6), title="Log-Returns des actifs sélectionnés")
-plt.xlabel("Date")
-plt.ylabel("Log-Return")
-plt.grid(True)
-plt.tight_layout()
-plt.show()
